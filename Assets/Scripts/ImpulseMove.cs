@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -14,12 +13,7 @@ public class ImpulseMove : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void Start()
-    {
-        Move(Vector3.forward);
-    }
-
-    private void Move(Vector3 dir)
+    public void Move(Vector3 dir)
     {
         dir = dir.normalized;
         if (space == Space.Self)
