@@ -1,0 +1,129 @@
+Script:
+- Open unity
+
+- explain each panel
+	- scene
+		- move
+		- rotate
+		- scale
+	- project
+		- folder structure
+		- our game files live in Assets
+		- Scenes are our "world" or "level" files
+		- we will add more
+	- console
+		- debug messages from the editor
+		- print statements from our code
+	- hierarchy
+		- where are game objects live
+		- game objects can have parents / children
+		- root is the scene
+	- inspector
+		- clicking on a game object in the scene its components in the inspector.
+		
+- what is a game object?
+	- <create an empty>
+	- an invisible container
+	- contains components (what the inspector shows)
+		- gameobjects come with a transform component
+			- position, rotation, scale
+		- "everything in our game will be gameobjects with components"
+
+- <explain things already in the scene>
+- <explore models folder>
+- <click on skybox material>
+- <drag in skybox material>
+- <drag in a model>
+- "Lets start by making our ship spin, as if its lost in space"
+- <show preferences->external script editor settings>
+- <show how to make and open a script>
+- <explain Start and Update (and other monobehaviour stuff. pull up monobehaviour docs)>
+- <make Spin.cs script>
+	- <explain public, protected, private, when to use them, and [SerializeField] / [HideInInspector]>
+	/*
+	     * To test unity's messages like Awake, Start, etc., try this:
+	     * - In scene, disable (uncheck) the ship's game object AND this script component.
+	     * - Press play.
+	     * - Enable the game object, Awake() is called.
+	     * - Enable the script, rest are called in order.
+	     * - Turn off either, OnDisable() called.
+	     * - Delete in hierarchy, OnDestroy() is called.
+	     */
+Physics
+- <explain that we will be making a physics move script>
+- <split up visual from physical, where physical is parent of visual gameobject>
+	- <explain reasoning behind this>
+- <add rigidbody to ship go>
+- <look at rigidbody component and settings>
+- <make ImpulseMove.cs script>
+	- explain RequireComponent attribute for getting rigid body
+	- apply a force to the ship
+	- explain differences between AddForce and AddRelativeForce
+		- explain coordinate spaces
+	- explain force modes, we will be using Impulse for a boost in some direction
+
+Input
+- <briefly mention new vs old input systems>
+- Input Action Assets
+	- Store Action Maps that map logical actions to a physical binding or a set of bindings
+- <Set project-wide actions asset>
+	- Edit > Project Settings > Input System Package
+	- Reference with InputSystem.actions
+- "For our purposes, we want to be able to control the ship"
+- <set up ship gameobject with Player Input component, use global input asset as an example>
+- <make PlayerShipController.cs>
+- <make HandleMove(InputAction.CallbackContext context)>
+- <hook up HandleMove in Player Input>
+- <code up input for HandleMove, debug.log it>
+
+Control the player with Input and Physics
+- "Now we want to actually move the ship with physics depending on our input"
+- <build out ShipController>
+- <make coroutine for move input cooldown>
+	- <explain a coroutine simply>
+	- <use:         yield return new WaitForSeconds(duration);>
+- <remember to guard HandleMove with both:         if (!context.performed || !_canMove)>
+
+Starting to make a spawner script, looking at prefabs, collisions
+- we want to make a scrolling asteroid spawner
+- add asteroid and make it a prefab
+- explain prefabs
+	- reusable template for a gameobject
+	- can override base prefab
+	- can edit in isolation
+	- pro tip: when you want to split up work in a scene, ESPECIALLY when using git, breaking things into prefabs and editing those prefabs "in context" only count as prefab changes, not scene changes.
+- remove spin from ship, add it to asteroid prefab
+- edit Spin.cs
+	- we want to apply random rotation to asteroids in our spawner
+	- we can control access to fields by using Properties
+	- serve as a cleaner alternative to setters and getters
+	public Vector3 RotationStep
+	    {
+		get
+		{
+		    Debug.Log("read");
+		    return rotationStep;
+		}
+		set
+		{
+		    Debug.Log("write");
+		    rotationStep = value;
+		}
+	    }
+- make Asteroid.cs
+	- add box collider on ship and sphere collider on asteroid
+	- show physics layers (but dont actually do it here)
+	- add random spin
+	- add move impulse
+	
+Making the spawner logic
+- Override and remove the asteroid prefab from the scene
+- make AsteroidSpawner.cs
+	- Pass a reference of the prefab from the assets folder
+	- Instantiate()
+		- spawn clones of gameobjects
+		- grab a reference to what it just allocated
+		
+Show ball knowledge!
+		
+	
