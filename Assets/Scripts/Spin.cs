@@ -4,6 +4,20 @@ public class Spin : MonoBehaviour
 {
     [SerializeField]
     private Vector3 rotationStep;
+ 
+    public Vector3 RotationStep
+    {
+        get
+        {
+            Debug.Log("read");
+            return rotationStep;
+        }
+        set
+        {
+            Debug.Log("write");
+            rotationStep = value;
+        }
+    }
     
     /*
      * To test unity's messages like Awake, Start, etc., try this:
